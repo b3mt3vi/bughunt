@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   subfinder:
     image: projectdiscovery/subfinder
@@ -11,7 +9,6 @@ services:
       - SECURITYTRAILS_API_KEY=${SECURITYTRAILS_API_KEY}
       - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
       - FULLHUNT_API_KEY=${FULLHUNT_API_KEY}
-      - CHAOS_API_KEY=${CHAOS_API_KEY}
     volumes:
       - ${PWD}/data:/app/data
     networks:
@@ -60,7 +57,7 @@ services:
 
   gau:
     image: sxcurity/gau
-    command: ${DOMAIN} --subs --threads 5 --providers wayback,commoncrawl,otx,urlscan -o /app/data/urls.txt
+    command: ${DOMAIN} --subs --threads 5 --providers wayback,commoncrawl,otx,urlscan --o /app/data/urls.txt
     volumes:
       - ${PWD}/data:/app/data
     networks:

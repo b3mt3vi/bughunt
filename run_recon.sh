@@ -5,13 +5,15 @@ source .env
 
 # Create necessary directories and files
 mkdir -p "$(pwd)/data"
-echo "example.com" > "$(pwd)/data/amass_input.txt"
 touch "$(pwd)/data/subfinder_output.txt"
 touch "$(pwd)/data/amass_enum_output.txt"
 touch "$(pwd)/data/final_subdomains.txt"
 touch "$(pwd)/data/live_hosts.txt"
 touch "$(pwd)/data/urls.txt"
-
+touch "$(pwd)/data/js_urls.txt"
+touch "$(pwd)/data/arjun_output.txt"
+touch "$(pwd)/data/dalfox_output.txt"
+touch "$(pwd)/data/params.txt"
 # Set permissions
 chmod -R 777 "$(pwd)/data"
 
@@ -20,8 +22,8 @@ echo "Running Subfinder..."
 docker compose run --rm subfinder || { echo 'Subfinder failed'; exit 1; }
 
 # Amass Enum
-echo "Running Amass Enum..."
-docker compose run --rm amass_enum || { echo 'Amass Enum failed'; exit 1; }
+echo "Running Amass Enum...(skipping for now)"
+# docker compose run --rm amass_enum || { echo 'Amass Enum failed'; exit 1; }
 
 # Combine results and check live hosts with HTTPX
 echo "Probing with HTTPX..."
@@ -60,10 +62,6 @@ docker compose run --rm getjs || { echo 'GetJS failed'; exit 1; }
 # Extract URLs from JavaScript files
 echo "Extracting URLs from JavaScript files..."
 grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*" "$(pwd)/data/js_urls.txt" > "$(pwd)/data/filtered_urls.txt"
-
-# Check for Domain TakeOver
-echo "Checking for Domain TakeOver..."
-takeover -l "$(pwd)/data/final_subdomains.txt" -v -t 10
 
 # Check for open Amazon S3 buckets
 echo "Checking for open Amazon S3 buckets..."
