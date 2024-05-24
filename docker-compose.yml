@@ -1,7 +1,7 @@
 services:
   subfinder:
     image: projectdiscovery/subfinder
-    command: -silent -d ${DOMAIN} -o /data/subfinder_output.txt
+    command: -silent -d ${DOMAIN} -o /app/data/subfinder_output.txt
     environment:
       - SHODAN_API_KEY=${SHODAN_API_KEY}
       - CENSYS_API_ID=${CENSYS_API_ID}
@@ -104,8 +104,8 @@ services:
       - shared_network
 
   paramspider:
-    build: ./ParamSpider
-    command: -d ${DOMAIN} -s -o /app/data/params.txt
+    build: ./paramspider
+    command: -d ${DOMAIN} -s > ${PWD}/data/params.txt
     volumes:
       - ${PWD}/data:/app/data
     networks:
@@ -114,3 +114,4 @@ services:
 networks:
   shared_network:
     driver: bridge
+

@@ -1,5 +1,6 @@
+**/.template-index
 data/**
 ParamSpider/**
 paramsider/**
-.env
-config/**
+**/.env
+config/**/**

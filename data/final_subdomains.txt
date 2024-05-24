@@ -413,6 +413,8 @@
 155418.example.com
 155498.example.com
 155.unused.example.com
+1561620172092.example.net
+1561621339381.example.net
 15624.example.com
 156823.example.com
 156855.example.com
@@ -1239,6 +1241,19 @@
 91.example.com
 9226.example.com
 92.example.com
+[92m199.43.133.0/24[0m[94m (Netblock)[0m [97m-->[0m [95mcontains[0m [97m-->[0m [92m199.43.133.53[0m[94m (IPAddress)[0m
+[92m199.43.135.0/24[0m[94m (Netblock)[0m [97m-->[0m [95mcontains[0m [97m-->[0m [92m199.43.135.53[0m[94m (IPAddress)[0m
+[92m2001:500:8d::/48[0m[94m (Netblock)[0m [97m-->[0m [95mcontains[0m [97m-->[0m [92m2001:500:8d::53[0m[94m (IPAddress)[0m
+[92m2001:500:8f::/48[0m[94m (Netblock)[0m [97m-->[0m [95mcontains[0m [97m-->[0m [92m2001:500:8f::53[0m[94m (IPAddress)[0m
+[92m26710[0m[94m (ASN)[0m [97m-->[0m [95mannounces[0m [97m-->[0m [92m199.43.133.0/24[0m[94m (Netblock)[0m
+[92m26710[0m[94m (ASN)[0m [97m-->[0m [95mannounces[0m [97m-->[0m [92m199.43.135.0/24[0m[94m (Netblock)[0m
+[92m26710[0m[94m (ASN)[0m [97m-->[0m [95mannounces[0m [97m-->[0m [92m2001:500:8d::/48[0m[94m (Netblock)[0m
+[92m26710[0m[94m (ASN)[0m [97m-->[0m [95mannounces[0m [97m-->[0m [92m2001:500:8f::/48[0m[94m (Netblock)[0m
+[92m26710[0m[94m (ASN)[0m [97m-->[0m [95mmanaged_by[0m [97m-->[0m [92mICANN-ANYCASTED-SERVICES - ICANN[0m[94m (RIROrganization)[0m
+[92mb.iana-servers.net[0m[94m (FQDN)[0m [97m-->[0m [95maaaa_record[0m [97m-->[0m [92m2001:500:8d::53[0m[94m (IPAddress)[0m
+[92mb.iana-servers.net[0m[94m (FQDN)[0m [97m-->[0m [95ma_record[0m [97m-->[0m [92m199.43.133.53[0m[94m (IPAddress)[0m
+[92mexample.net[0m[94m (FQDN)[0m [97m-->[0m [95mns_record[0m [97m-->[0m [92ma.iana-servers.net[0m[94m (FQDN)[0m
+[92mexample.net[0m[94m (FQDN)[0m [97m-->[0m [95mns_record[0m [97m-->[0m [92mb.iana-servers.net[0m[94m (FQDN)[0m
 93.179.69.199.example.com
 93556.example.com
 93.example.com
@@ -2725,6 +2740,7 @@ ads3.example.com
 ads4.example.com
 ads.bannerserver.example.com
 adseliverstova93ms.example.com
+ad-server.example.net
 ads.example.com
 adsl-link.example.com
 adssfd231.example.com
@@ -2848,6 +2864,7 @@ ak4.example.com
 ak6.example.com
 akakludge.example.com
 akakoca.example.com
+akamai.example.net
 akamtrait2.example.com
 akanokun.example.com
 ak.example.com
@@ -4964,6 +4981,7 @@ attraction.example.com
 atynov.example.com
 au.example.com
 augustinbabic.example.com
+aunt.example.net
 aurania2business.example.com
 aushevserver.example.com
 austinov200424.example.com
@@ -5270,6 +5288,7 @@ bc-7-4-new.example.com
 bcvoda.example.com
 bd.example.com
 beacon-home.example.com
+bead.example.net
 beamtv.example.com
 bedrichwlodarczyk.example.com
 bedroom.example.com
@@ -5298,6 +5317,7 @@ bektrip.example.com
 belemb.example.com
 bel.evg21.example.com
 belgorod70.example.com
+belief.example.net
 belimov.example.com
 belioka.example.com
 belkanerd.example.com
@@ -6056,6 +6076,7 @@ bigwashing879.example.com
 bigwashing87.example.com
 bikamzhaz1.example.com
 bikamzhaz.example.com
+bike.example.net
 bikes.example.com
 bilaljbr91.example.com
 bilaljbr9.example.com
@@ -6066,6 +6087,7 @@ billibones.example.com
 billing1.example.com
 billing2.example.com
 billing.example.com
+billing.example.net
 billingpay.example.com
 billionaire6.example.com
 billionaireblackobramovich.example.com
@@ -6255,6 +6277,7 @@ bondar1.vanya.02.example.com
 bondarevmaiss.example.com
 bondar.vanya.02.example.com
 bonddaniel89.example.com
+bone.example.net
 bonifatsiy84aristarkhov.example.com
 bonus2you10.net.example.com
 bonus2you11.net.example.com
@@ -6396,6 +6419,7 @@ bt.example.com
 bthosting1.example.com
 bthosting2.example.com
 buba1eh.example.com
+bubble.example.net
 budakovaina.example.com
 budwex.example.com
 bugs.example.com
@@ -6887,6 +6911,7 @@ clood7171.example.com
 cloud1.example.com
 cloud458.example.com
 cloud.example.com
+cloudflare.example.net
 cloud-nl1.example.com
 cloudvpsserver.na.example.com
 cls79856250508.example.com
@@ -7029,6 +7054,7 @@ congtu348889.example.com
 congtu34888.example.com
 conograii.example.com
 conpudeirn.example.com
+console.minio.example.net
 constantine.sukhanov.example.com
 constantin.schm.example.com
 consult.example.com
@@ -7300,6 +7326,7 @@ dashkovalex.example.com
 d.a.soloviev.example.com
 datacheapvpscon.example.com
 data.example.com
+data.example.net
 datinbot.example.com
 dave123qs.example.com
 david1.davis.example.com
@@ -7820,6 +7847,7 @@ d.novokshonov.example.com
 dns1.example.com
 dns2.example.com
 dns.example.com
+dns.example.net
 dns-hk.example.com
 do1.example.com
 dobrohotow.lexa.example.com
@@ -8345,6 +8373,8 @@ enot5000.example.com
 enrive8ve1.example.com
 enrive8ve.example.com
 enterginoff.example.com
+enterprise-block.example.net
+enterprise-warn.example.net
 entitydestroy1.example.com
 envyx.example.com
 epd47.example.com
@@ -9109,6 +9139,7 @@ fsmileberry.example.com
 fst.example.com
 fsum42.example.com
 ftp.example.com
+ftp.example.net
 fubarpatsharp.example.com
 fudenied1.example.com
 fudenied.example.com
@@ -9495,6 +9526,7 @@ gilmanovaan.example.com
 ginatulin.t.example.com
 gis.example.com
 gitea.example.com
+git.example.net
 giuseppe1.incarnato.example.com
 givemeallurgold.example.com
 givucepivora.example.com
@@ -9943,6 +9975,7 @@ healty.official.example.com
 heatherwashington.example.com
 heavenmanspb.example.com
 heavymetal.design.example.com
+hebergement.example.net
 hecayo1138.example.com
 heciwo96741.example.com
 heelocus95.example.com
@@ -12345,6 +12378,7 @@ kosomovv.example.com
 kosozerov.example.com
 kossirmarwan.example.com
 kosss1989.example.com
+koster6.example.net
 kostetz1.example.com
 kostetz2.example.com
 kostia20072007.example.com
@@ -13088,6 +13122,7 @@ ljm1447669873.example.com
 ljm625.example.com
 ljoel1400.example.com
 ljy087621.example.com
+lk.example.net
 lkiss36791.example.com
 lkjhdslfgk1.example.com
 lk-vps.example.com
@@ -13424,6 +13459,7 @@ mail8.example.com
 maileerslice1.example.com
 maileerslice.example.com
 mail.example.com
+mail.example.net
 mailg05310.example.com
 mailg05311.example.com
 mailg05316.example.com
@@ -14027,6 +14063,7 @@ minezone9000.example.com
 mingazov-danil.example.com
 mingazovdenis78.example.com
 minimal.example.com
+minio.example.net
 minisemen.example.com
 minnka.example.com
 minpass.example.com
@@ -14401,6 +14438,7 @@ msoftdogsua1.example.com
 msoftdogsua.example.com
 msp.example.com
 mstebra.example.com
+mta.example.net
 mtajammulpk10.example.com
 mtajammulpk11.example.com
 mtajammulpk12.example.com
@@ -15027,7 +15065,9 @@ nroomy1.example.com
 nrserg.example.com
 ns11.example.com
 ns1.example.com
+ns1.example.net
 ns2.example.com
+ns2.example.net
 ns3.example.com
 ns5.example.com
 ns9.example.com
@@ -15118,6 +15158,7 @@ obslt954761.example.com
 obslt95476.example.com
 och225.example.com
 ochirbatorov.example.com
+ocsp.example.net
 octavian481.example.com
 octopus.example.com
 odaojan.example.com
@@ -15772,6 +15813,7 @@ philipp147896321.example.com
 phishing-test.example.com
 phoenix159.example.com
 phost3.example.com
+photos.example.net
 phourlim.example.com
 phylyppstepa1.example.com
 phylyppstepa2.example.com
@@ -15903,6 +15945,7 @@ plsys.example.com
 pludowski99.example.com
 plumbing.example.com
 pm3.47am.example.com
+pma.example.net
 pmax.example.com
 pminimalp1.example.com
 pminimalp.example.com
@@ -16107,6 +16150,7 @@ protest.example.com
 protey2003.example.com
 proton.example.com
 provider.example.com
+provider.example.net
 proxima.example.com
 proxyka.example.com
 proxyoct1.example.com
@@ -16506,6 +16550,7 @@ redforce.example.com
 redirect.example.com
 redlable47.example.com
 red.lajn.example.com
+redmine.example.net
 redvpninfo1.example.com
 redvpninfo.example.com
 re-e199011.example.com
@@ -17232,6 +17277,7 @@ rotik24245.example.com
 rotik24246.example.com
 rotik24247.example.com
 rotik2424.example.com
+router.example.net
 rovol.ice.example.com
 rowshen929204.example.com
 roy812969.example.com
@@ -18424,6 +18470,7 @@ skavto.ru.example.com
 skaz125.example.com
 skeevevds.example.com
 skepower.example.com
+skeptical.example.net
 skfyann.example.com
 skigo.example.com
 sklimenok68.example.com
@@ -18847,6 +18894,7 @@ storage9632147851.example.com
 storage9632147852.example.com
 storage9632147853.example.com
 storage963214785.example.com
+storage.example.net
 storake322.example.com
 store.example.com
 stor.example.com
@@ -19129,6 +19177,7 @@ sub99.example.com
 sub9.example.com
 subbotin.mag-nit.example.com
 subenza8882.example.com
+sub.example.net
 subielfq10.example.com
 subielfq114.example.com
 subielfq11.example.com
@@ -19585,6 +19634,7 @@ sv.example.com
 sviridenko-dasha.example.com
 svirin1.example.com
 svit2010.example.com
+svn.example.net
 s.vovkodav.example.com
 svprianikov69ms.example.com
 svs1.laboratory.example.com
@@ -22084,6 +22134,7 @@ www1.denis.ru87.example.com
 www2.andryukha1994.example.com
 www2.example.com
 www3.andryukha1994.example.com
+www3.example.net
 www4.denis.ru87.example.com
 wwwa1.example.com
 wwwaa.example.com
@@ -22091,6 +22142,7 @@ www.ark.example.com
 wwwbk.ru.example.com
 www.dummy-host.example.com
 www.example.com
+www.example.net
 www.fanohotel.example.com
 www.forum.example.com
 www.good.example.com
