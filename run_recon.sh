@@ -60,11 +60,11 @@ process_domain() {
     log_error "Subfinder failed for $DOMAIN"
   fi
 
-  # Run Amass Enum
-  echo "Running Amass Enum for $DOMAIN..."
-  if ! docker compose run --rm amass_enum; then
-    log_error "Amass Enum failed for $DOMAIN"
-  fi
+# Run Amass Enum. Disabled for now, speed issues.
+#  echo "Running Amass Enum for $DOMAIN..."
+#  if ! docker compose run --rm amass_enum; then
+#    log_error "Amass Enum failed for $DOMAIN"
+#  fi
 
   # Combine results and check live hosts with HTTPX
   echo "Probing with HTTPX for $DOMAIN..."
