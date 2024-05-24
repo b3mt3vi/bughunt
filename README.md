@@ -46,26 +46,24 @@ This project is a comprehensive reconnaissance framework designed to automate th
 
 The project maintains a structured directory for data organization:
 
-    - `data/`: Main directory for storing output files
-    - `recon/`: Subdirectory for categorized data
-    - `subdomains/`: Contains .txt files for each discovered subdomain
-    - `urls/`: Contains .txt files for each discovered URL
-    - `ips/`: Contains .txt files for each discovered IP
+- `data/`: Main directory for storing output files
+- `recon/`: Subdirectory for categorized data
+- `subdomains/`: Contains .txt files for each discovered subdomain
+- `urls/`: Contains .txt files for each discovered URL
+- `ips/`: Contains .txt files for each discovered IP
 
 ## Prerequisites
 
-    - Docker
-    - Docker Compose
+- Docker
+- Docker Compose
 
 ## Setup
 
 1. **Clone the repository**:
 
 ```bash
-
 git clone <repository-url>
 cd <repository-directory>
-
 ```
    
 Create a domain list file:
@@ -77,9 +75,9 @@ Build Docker images for tools that require custom builds:
 docker-compose build arjun getjs paramspider
 ```
 
-Usage
+## Usage
 
-    Run the reconnaissance script:
+Run the reconnaissance script:
 
 ```bash
 ./run_recon.sh domains.txt
@@ -98,7 +96,7 @@ This script will:
 - Analyze SSL/TLS configurations using Testssl.
 - Take screenshots of web pages using Gowitness.
 
-    Check the data/recon/ directory for the organized results.
+Check the data/recon/ directory for the organized results.
 
 ## Logging
 
@@ -110,7 +108,9 @@ You can customize the tools and their configurations by modifying the docker-com
 
 ## Troubleshooting
 
-If you encounter any issues, refer to the data/recon.log file for error messages. Ensure that all required API keys are correctly set in the .env file and that Docker and Docker Compose are properly installed and configured.
+If you encounter any issues, refer to the data/recon.log file for error messages. Ensure that all required API keys are correctly set in the .env file and 
+that Docker and Docker Compose are properly installed and configured.
+
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
