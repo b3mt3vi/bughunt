@@ -1,5 +1,1 @@
-*-cvr-aws-*.sys.comcast.net
-*.xfinityhome.com
-*.xfiplatform.com
-*signalservice.comcast.net
-xhomeapi-*.cloud.comcast.net
+
