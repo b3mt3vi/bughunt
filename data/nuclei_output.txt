@@ -1,0 +1,35 @@
+[spf-record-detect] [dns] [info] example.com ["v=spf1 -all""]
+[txt-fingerprint] [dns] [info] example.com [""v=spf1 -all"",""wgyf8z8cgvm2qmxpnbnldrcltvk4xqfn""]
+[dnssec-detection] [dns] [info] example.com
+[caa-fingerprint] [dns] [info] example.com
+[mx-fingerprint] [dns] [info] example.com ["0 ."]
+[nameserver-fingerprint] [dns] [info] example.com ["b.iana-servers.net.","a.iana-servers.net."]
+[tls-version] [ssl] [info] example.com:443 ["tls10"]
+[deprecated-tls:tls_1.1] [ssl] [info] example.com:443 ["tls11"]
+[weak-cipher-suites:tls-1.0] [ssl] [low] example.com:443 ["[tls10 TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA]"]
+[tls-version] [ssl] [info] example.com:443 ["tls11"]
+[deprecated-tls:tls_1.0] [ssl] [info] example.com:443 ["tls10"]
+[weak-cipher-suites:tls-1.1] [ssl] [low] example.com:443 ["[tls11 TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA]"]
+[tls-version] [ssl] [info] example.com:443 ["tls12"]
+[tls-version] [ssl] [info] example.com:443 ["tls13"]
+[options-method] [http] [info] https://example.com ["OPTIONS, GET, HEAD, POST"]
+[http-missing-security-headers:strict-transport-security] [http] [info] https://example.com
+[http-missing-security-headers:x-frame-options] [http] [info] https://example.com
+[http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] https://example.com
+[http-missing-security-headers:clear-site-data] [http] [info] https://example.com
+[http-missing-security-headers:cross-origin-opener-policy] [http] [info] https://example.com
+[http-missing-security-headers:cross-origin-resource-policy] [http] [info] https://example.com
+[http-missing-security-headers:content-security-policy] [http] [info] https://example.com
+[http-missing-security-headers:permissions-policy] [http] [info] https://example.com
+[http-missing-security-headers:x-content-type-options] [http] [info] https://example.com
+[http-missing-security-headers:referrer-policy] [http] [info] https://example.com
+[http-missing-security-headers:cross-origin-embedder-policy] [http] [info] https://example.com
+[azure-domain-tenant] [http] [info] https://login.microsoftonline.com:443/example.com/v2.0/.well-known/openid-configuration ["c7c08208-4f4d-45f1-83cd-5e2f491ab786"]
+[rdap-whois:lastChangeDate] [http] [info] https://rdap.verisign.com/com/v1/domain/example.com ["2023-08-14T07:01:38Z"]
+[rdap-whois:expirationDate] [http] [info] https://rdap.verisign.com/com/v1/domain/example.com ["2024-08-13T04:00:00Z"]
+[rdap-whois:nameServers] [http] [info] https://rdap.verisign.com/com/v1/domain/example.com ["A.IANA-SERVERS.NET","B.IANA-SERVERS.NET"]
+[rdap-whois:secureDNS] [http] [info] https://rdap.verisign.com/com/v1/domain/example.com ["true"]
+[rdap-whois:status] [http] [info] https://rdap.verisign.com/com/v1/domain/example.com ["client transfer prohibited","client update prohibited","client delete prohibited"]
+[rdap-whois:registrationDate] [http] [info] https://rdap.verisign.com/com/v1/domain/example.com ["1995-08-14T04:00:00Z"]
+[ssl-issuer] [ssl] [info] example.com:443 ["DigiCert Inc"]
+[ssl-dns-names] [ssl] [info] example.com:443 ["www.example.edu","www.example.net","www.example.org","example.net","example.edu","example.com","example.org","www.example.com"]
