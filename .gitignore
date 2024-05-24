@@ -5,6 +5,6 @@
 **/.template-index
 data/**
 ParamSpider/**
-paramsider/**
+paramspider/**
 **/.env
 config/**/**
