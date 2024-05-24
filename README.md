@@ -113,4 +113,9 @@ that Docker and Docker Compose are properly installed and configured.
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+Copyright (C) 2024 b3mt3vi
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
