@@ -1239,8 +1239,6 @@
 91.example.com
 9226.example.com
 92.example.com
-[92mexample.net[0m[94m (FQDN)[0m [97m-->[0m [95mns_record[0m [97m-->[0m [92ma.iana-servers.net[0m[94m (FQDN)[0m
-[92mexample.net[0m[94m (FQDN)[0m [97m-->[0m [95mns_record[0m [97m-->[0m [92mb.iana-servers.net[0m[94m (FQDN)[0m
 93.179.69.199.example.com
 93556.example.com
 93.example.com

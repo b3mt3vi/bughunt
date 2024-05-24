@@ -1,4 +1,5 @@
-data/
-ParamSpider/
-paramsider/
+data/**
+ParamSpider/**
+paramsider/**
 .env
+config/**
