@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+.env
+>>>>>>> refs/remotes/origin/main
 **/.template-index
 data/**
 ParamSpider/**

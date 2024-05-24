@@ -3,27 +3,26 @@ services:
     image: projectdiscovery/subfinder
     command: -silent -d ${DOMAIN} -o /app/data/subfinder_output.txt
     environment:
-      - SHODAN_API_KEY=${SHODAN_API_KEY}
       - CENSYS_API_ID=${CENSYS_API_ID}
       - CENSYS_API_SECRET=${CENSYS_API_SECRET}
-      - SECURITYTRAILS_API_KEY=${SECURITYTRAILS_API_KEY}
+      - SHODAN_API_KEY=${SHODAN_API_KEY}
       - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
       - FULLHUNT_API_KEY=${FULLHUNT_API_KEY}
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
     networks:
       - shared_network
 
   amass_enum:
     image: caffix/amass
-    command: enum -passive -df /app/data/amass_input.txt -o /app/data/amass_enum_output.txt -timeout 60 -max-depth 5
+    command: enum -passive -df /app/data/amass_input.txt -o /app/data/amass_enum_output.txt -d ${DOMAIN} -timeout 60 -max-depth 5
     environment:
-      - SHODAN_API_KEY=${SHODAN_API_KEY}
       - CENSYS_API_ID=${CENSYS_API_ID}
       - CENSYS_API_SECRET=${CENSYS_API_SECRET}
+      - SHODAN_API_KEY=${SHODAN_API_KEY}
       - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
     networks:
       - shared_network
 
@@ -31,7 +30,7 @@ services:
     image: projectdiscovery/httpx
     command: -silent -l /app/data/final_subdomains.txt -o /app/data/live_hosts.txt
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
     networks:
       - shared_network
 
@@ -42,7 +41,7 @@ services:
       - SHODAN_API_KEY=${SHODAN_API_KEY}
       - GITHUB_API_KEY=${GITHUB_API_KEY}
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
     networks:
       - shared_network
 
@@ -50,7 +49,7 @@ services:
     image: projectdiscovery/nuclei
     command: -silent -l /app/data/live_hosts.txt -t /root/nuclei-templates -o /app/data/nuclei_output.txt -rl 50 -c 25
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
       - ./config/nuclei:/root/nuclei-templates
     networks:
       - shared_network
@@ -59,7 +58,7 @@ services:
     image: sxcurity/gau
     command: ${DOMAIN} --subs --threads 5 --providers wayback,commoncrawl,otx,urlscan --o /app/data/urls.txt
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
     networks:
       - shared_network
 
@@ -67,7 +66,7 @@ services:
     build: ./arjun
     command: -q -i /app/data/urls.txt -o /app/data/arjun_output.txt
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
     networks:
       - shared_network
 
@@ -75,7 +74,7 @@ services:
     image: hahwul/dalfox
     command: file /app/data/arjun_output.txt --silence --no-spinner -o /app/data/dalfox_output.txt
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
     networks:
       - shared_network
 
@@ -83,7 +82,7 @@ services:
     build: ./getjs
     command: --input /app/data/urls.txt --output /app/data/js_urls.txt
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
     networks:
       - shared_network
 
@@ -91,7 +90,7 @@ services:
     image: drwetter/testssl.sh
     command: /app/testssl.sh --jsonfile /app/data/testssl_output.json --quiet --file /app/data/urls.txt
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
     networks:
       - shared_network
 
@@ -99,15 +98,15 @@ services:
     image: leonjza/gowitness
     command: file -f /app/data/urls.txt --screenshot-path /app/data/screenshots --threads 5
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
     networks:
       - shared_network
 
   paramspider:
-    build: ./paramspider
-    command: -d ${DOMAIN} -s > ${PWD}/data/params.txt
+    build: ./ParamSpider
+    command: -d ${DOMAIN} -s > /app/data/params.txt
     volumes:
-      - ${PWD}/data:/app/data
+      - ./data:/app/data
     networks:
       - shared_network
 
