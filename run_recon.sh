@@ -1,5 +1,27 @@
 #!/bin/bash
 
+
+echo "      :::::::::  :::    :::  ::::::::  :::    ::: :::    ::: ::::    ::: ::::::::::: ";
+echo "     :+:    :+: :+:    :+: :+:    :+: :+:    :+: :+:    :+: :+:+:   :+:     :+:      ";
+echo "    +:+    +:+ +:+    +:+ +:+        +:+    +:+ +:+    +:+ :+:+:+  +:+     +:+       ";
+echo "   +#++:++#+  +#+    +:+ :#:        +#++:++#++ +#+    +:+ +#+ +:+ +#+     +#+        ";
+echo "  +#+    +#+ +#+    +#+ +#+   +#+# +#+    +#+ +#+    +#+ +#+  +#+#+#     +#+         ";
+echo " #+#    #+# #+#    #+# #+#    #+# #+#    #+# #+#    #+# #+#   #+#+#     #+#          ";
+echo "#########   ########   ########  ###    ###  ########  ###    ####     ###           ";
+/*
+ * Copyright (C) 2024 b3mt3vi
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
 # Load environment variables
 source .env
 
@@ -60,11 +82,11 @@ process_domain() {
     log_error "Subfinder failed for $DOMAIN"
   fi
 
-  # Run Amass Enum
-  echo "Running Amass Enum for $DOMAIN..."
-  if ! docker compose run --rm amass_enum; then
-    log_error "Amass Enum failed for $DOMAIN"
-  fi
+# Run Amass Enum. Disabled for now, speed issues.
+#  echo "Running Amass Enum for $DOMAIN..."
+#  if ! docker compose run --rm amass_enum; then
+#    log_error "Amass Enum failed for $DOMAIN"
+#  fi
 
   # Combine results and check live hosts with HTTPX
   echo "Probing with HTTPX for $DOMAIN..."

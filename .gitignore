@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-=======
 .env
->>>>>>> refs/remotes/origin/main
 **/.template-index
-data/**
-ParamSpider/**
-paramspider/**
-**/.env
-config/**/**
+data/*.txt
+config/nuclei/.checksum

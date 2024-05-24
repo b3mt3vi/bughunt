@@ -69,11 +69,23 @@ cd <repository-directory>
 Create a domain list file:
 Create a file (e.g., domains.txt) and list the target domains, one per line.
 
-Build Docker images for tools that require custom builds:
+2. Build Docker images for tools that require custom builds:
 
 ```bash
 docker-compose build arjun getjs paramspider
 ```
+3. Create a file .env and use a text editor to enter your API keys in the following format:
+
+```
+DOMAIN=example.net
+
+BUFF_OVER_API_KEY=yourkey
+CENSYS_API_ID=yourkey
+CENSYS_API_SECRET=yourkey
+CERTSPOTTER_API_KEY=yourkey
+CHAOS_API_KEY=yourkey
+```
+
 
 ## Usage
 
