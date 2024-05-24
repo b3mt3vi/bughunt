@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
   subfinder:
@@ -13,41 +13,28 @@ services:
       - FULLHUNT_API_KEY=${FULLHUNT_API_KEY}
       - CHAOS_API_KEY=${CHAOS_API_KEY}
     volumes:
-      - ./data:/data
-    networks:
-      - shared_network
-
-  amass_intel:
-    image: caffix/amass
-    command: intel -df /app/data/amass_input.txt -o /app/data/amass_intel_output.txt
-    environment:
-      - SHODAN_API_KEY=${SHODAN_API_KEY}
-      - CENSYS_API_ID=${CENSYS_API_ID}
-      - CENSYS_API_SECRET=${CENSYS_API_SECRET}
-      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
-    volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
     networks:
       - shared_network
 
   amass_enum:
     image: caffix/amass
-    command: enum -passive -df /app/data/amass_input.txt -o /app/data/amass_enum_output.txt
+    command: enum -passive -df /app/data/amass_input.txt -o /app/data/amass_enum_output.txt -timeout 60 -max-depth 5
     environment:
       - SHODAN_API_KEY=${SHODAN_API_KEY}
       - CENSYS_API_ID=${CENSYS_API_ID}
       - CENSYS_API_SECRET=${CENSYS_API_SECRET}
       - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
     volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
     networks:
       - shared_network
 
   httpx:
     image: projectdiscovery/httpx
-    command: -silent -l /data/final_subdomains.txt -o /data/live_hosts.txt
+    command: -silent -l /app/data/final_subdomains.txt -o /app/data/live_hosts.txt
     volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
     networks:
       - shared_network
 
@@ -58,72 +45,72 @@ services:
       - SHODAN_API_KEY=${SHODAN_API_KEY}
       - GITHUB_API_KEY=${GITHUB_API_KEY}
     volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
     networks:
       - shared_network
 
   nuclei:
     image: projectdiscovery/nuclei
-    command: -silent -l /data/live_hosts.txt -t /root/nuclei-templates -o /data/nuclei_output.txt
+    command: -silent -l /app/data/live_hosts.txt -t /root/nuclei-templates -o /app/data/nuclei_output.txt -rl 50 -c 25
     volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
       - ./config/nuclei:/root/nuclei-templates
     networks:
       - shared_network
 
   gau:
     image: sxcurity/gau
-    command: ${DOMAIN} --subs --threads 5 --providers wayback,commoncrawl,otx,urlscan --o /data/urls.txt
+    command: ${DOMAIN} --subs --threads 5 --providers wayback,commoncrawl,otx,urlscan -o /app/data/urls.txt
     volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
     networks:
       - shared_network
 
   arjun:
     build: ./arjun
-    command: -q -i /data/urls.txt -o /data/arjun_output.txt
+    command: -q -i /app/data/urls.txt -o /app/data/arjun_output.txt
     volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
     networks:
       - shared_network
 
   dalfox:
     image: hahwul/dalfox
-    command: file /data/arjun_output.txt --silence --no-spinner -o /data/dalfox_output.txt
+    command: file /app/data/arjun_output.txt --silence --no-spinner -o /app/data/dalfox_output.txt
     volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
     networks:
       - shared_network
 
   getjs:
     build: ./getjs
-    command: --input /data/urls.txt --output /data/js_urls.txt
+    command: --input /app/data/urls.txt --output /app/data/js_urls.txt
     volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
     networks:
       - shared_network
 
   testssl:
     image: drwetter/testssl.sh
-    command: /app/testssl.sh --jsonfile /data/testssl_output.json --quiet --file /data/urls.txt
+    command: /app/testssl.sh --jsonfile /app/data/testssl_output.json --quiet --file /app/data/urls.txt
     volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
     networks:
       - shared_network
 
   gowitness:
     image: leonjza/gowitness
-    command: file -f /data/urls.txt --screenshot-path /data/screenshots --threads 5
+    command: file -f /app/data/urls.txt --screenshot-path /app/data/screenshots --threads 5
     volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
     networks:
       - shared_network
 
   paramspider:
     build: ./ParamSpider
-    command: -d ${DOMAIN} -s -o /data/params.txt
+    command: -d ${DOMAIN} -s -o /app/data/params.txt
     volumes:
-      - ./data:/data
+      - ${PWD}/data:/app/data
     networks:
       - shared_network
 
