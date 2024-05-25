@@ -107,7 +107,7 @@ services:
       - shared_network
 
   paramspider:
-    build: ./ParamSpider
+    build: ./paramspider
     command: -d ${DOMAIN} -s > /app/data/params.txt
     volumes:
       - ./data:/app/data
