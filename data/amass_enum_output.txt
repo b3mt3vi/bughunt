@@ -1,24 +1,24 @@
-[92mexample.net[0m[94m (FQDN)[0m [97m-->[0m [95mns_record[0m [97m-->[0m [92mb.iana-servers.net[0m[94m (FQDN)[0m
-[92mexample.net[0m[94m (FQDN)[0m [97m-->[0m [95mns_record[0m [97m-->[0m [92ma.iana-servers.net[0m[94m (FQDN)[0m
-[92ma.iana-servers.net[0m[94m (FQDN)[0m [97m-->[0m [95ma_record[0m [97m-->[0m [92m199.43.135.53[0m[94m (IPAddress)[0m
-[92ma.iana-servers.net[0m[94m (FQDN)[0m [97m-->[0m [95maaaa_record[0m [97m-->[0m [92m2001:500:8f::53[0m[94m (IPAddress)[0m
-[92mwww.example.net[0m[94m (FQDN)[0m [97m-->[0m [95ma_record[0m [97m-->[0m [92m93.184.215.14[0m[94m (IPAddress)[0m
-[92mwww.example.net[0m[94m (FQDN)[0m [97m-->[0m [95maaaa_record[0m [97m-->[0m [92m2606:2800:21f:cb07:6820:80da:af6b:8b2c[0m[94m (IPAddress)[0m
-[92m199.43.135.0/24[0m[94m (Netblock)[0m [97m-->[0m [95mcontains[0m [97m-->[0m [92m199.43.135.53[0m[94m (IPAddress)[0m
-[92m2001:500:8f::/48[0m[94m (Netblock)[0m [97m-->[0m [95mcontains[0m [97m-->[0m [92m2001:500:8f::53[0m[94m (IPAddress)[0m
-[92m93.184.215.0/24[0m[94m (Netblock)[0m [97m-->[0m [95mcontains[0m [97m-->[0m [92m93.184.215.14[0m[94m (IPAddress)[0m
-[92m2606:2800:21f::/48[0m[94m (Netblock)[0m [97m-->[0m [95mcontains[0m [97m-->[0m [92m2606:2800:21f:cb07:6820:80da:af6b:8b2c[0m[94m (IPAddress)[0m
-[92m26710[0m[94m (ASN)[0m [97m-->[0m [95mmanaged_by[0m [97m-->[0m [92mICANN-ANYCASTED-SERVICES - ICANN[0m[94m (RIROrganization)[0m
-[92m26710[0m[94m (ASN)[0m [97m-->[0m [95mannounces[0m [97m-->[0m [92m199.43.135.0/24[0m[94m (Netblock)[0m
-[92m26710[0m[94m (ASN)[0m [97m-->[0m [95mannounces[0m [97m-->[0m [92m2001:500:8f::/48[0m[94m (Netblock)[0m
-[92m15133[0m[94m (ASN)[0m [97m-->[0m [95mmanaged_by[0m [97m-->[0m [92mEDGECAST - MCI Communications Services, Inc. d/b/a Verizon Business[0m[94m (RIROrganization)[0m
-[92m15133[0m[94m (ASN)[0m [97m-->[0m [95mannounces[0m [97m-->[0m [92m93.184.215.0/24[0m[94m (Netblock)[0m
-[92m15133[0m[94m (ASN)[0m [97m-->[0m [95mannounces[0m [97m-->[0m [92m2606:2800:21f::/48[0m[94m (Netblock)[0m
-[92mexample.net[0m[94m (FQDN)[0m [97m-->[0m [95ma_record[0m [97m-->[0m [92m93.184.215.14[0m[94m (IPAddress)[0m
-[92mexample.net[0m[94m (FQDN)[0m [97m-->[0m [95maaaa_record[0m [97m-->[0m [92m2606:2800:21f:cb07:6820:80da:af6b:8b2c[0m[94m (IPAddress)[0m
-[92mb.iana-servers.net[0m[94m (FQDN)[0m [97m-->[0m [95ma_record[0m [97m-->[0m [92m199.43.133.53[0m[94m (IPAddress)[0m
-[92mb.iana-servers.net[0m[94m (FQDN)[0m [97m-->[0m [95maaaa_record[0m [97m-->[0m [92m2001:500:8d::53[0m[94m (IPAddress)[0m
-[92m199.43.133.0/24[0m[94m (Netblock)[0m [97m-->[0m [95mcontains[0m [97m-->[0m [92m199.43.133.53[0m[94m (IPAddress)[0m
-[92m2001:500:8d::/48[0m[94m (Netblock)[0m [97m-->[0m [95mcontains[0m [97m-->[0m [92m2001:500:8d::53[0m[94m (IPAddress)[0m
-[92m26710[0m[94m (ASN)[0m [97m-->[0m [95mannounces[0m [97m-->[0m [92m199.43.133.0/24[0m[94m (Netblock)[0m
-[92m26710[0m[94m (ASN)[0m [97m-->[0m [95mannounces[0m [97m-->[0m [92m2001:500:8d::/48[0m[94m (Netblock)[0m
+example.net (FQDN) --> ns_record --> a.iana-servers.net (FQDN)
+example.net (FQDN) --> ns_record --> b.iana-servers.net (FQDN)
+www.example.net (FQDN) --> a_record --> 93.184.215.14 (IPAddress)
+www.example.net (FQDN) --> aaaa_record --> 2606:2800:21f:cb07:6820:80da:af6b:8b2c (IPAddress)
+93.184.215.0/24 (Netblock) --> contains --> 93.184.215.14 (IPAddress)
+2606:2800:21f::/48 (Netblock) --> contains --> 2606:2800:21f:cb07:6820:80da:af6b:8b2c (IPAddress)
+15133 (ASN) --> managed_by --> EDGECAST - MCI Communications Services, Inc. d/b/a Verizon Business (RIROrganization)
+15133 (ASN) --> announces --> 93.184.215.0/24 (Netblock)
+15133 (ASN) --> announces --> 2606:2800:21f::/48 (Netblock)
+example.net (FQDN) --> a_record --> 93.184.215.14 (IPAddress)
+example.net (FQDN) --> aaaa_record --> 2606:2800:21f:cb07:6820:80da:af6b:8b2c (IPAddress)
+b.iana-servers.net (FQDN) --> a_record --> 199.43.133.53 (IPAddress)
+b.iana-servers.net (FQDN) --> aaaa_record --> 2001:500:8d::53 (IPAddress)
+199.43.133.0/24 (Netblock) --> contains --> 199.43.133.53 (IPAddress)
+2001:500:8d::/48 (Netblock) --> contains --> 2001:500:8d::53 (IPAddress)
+26710 (ASN) --> managed_by --> ICANN-ANYCASTED-SERVICES - ICANN (RIROrganization)
+26710 (ASN) --> announces --> 199.43.133.0/24 (Netblock)
+26710 (ASN) --> announces --> 2001:500:8d::/48 (Netblock)
+a.iana-servers.net (FQDN) --> a_record --> 199.43.135.53 (IPAddress)
+a.iana-servers.net (FQDN) --> aaaa_record --> 2001:500:8f::53 (IPAddress)
+199.43.135.0/24 (Netblock) --> contains --> 199.43.135.53 (IPAddress)
+2001:500:8f::/48 (Netblock) --> contains --> 2001:500:8f::53 (IPAddress)
+26710 (ASN) --> announces --> 199.43.135.0/24 (Netblock)
+26710 (ASN) --> announces --> 2001:500:8f::/48 (Netblock)

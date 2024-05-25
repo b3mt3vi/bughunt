@@ -1,0 +1,15 @@
+com
+net
+org
+info
+biz
+io
+us
+co
+uk
+de
+jp
+cn
+in
+br
+ru

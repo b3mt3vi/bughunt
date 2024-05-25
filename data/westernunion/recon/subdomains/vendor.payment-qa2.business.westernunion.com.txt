@@ -1,0 +1,1 @@
+vendor.payment-qa2.business.westernunion.com

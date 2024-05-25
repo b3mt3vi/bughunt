@@ -1,0 +1,1 @@
+vendor.payment-uat.business.westernunion.com

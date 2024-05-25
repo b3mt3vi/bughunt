@@ -1,11 +1,7 @@
-# Copyright (C) 2024 b3mt3vi
-
-# This Docker Compose file is part of a project licensed under the
-# GNU General Public License version 3 or later.
 services:
   subfinder:
     image: projectdiscovery/subfinder
-    command: -silent -d ${DOMAIN} -o /app/data/subfinder_output.txt
+    command: -silent -d ${DOMAIN} -o /app/data/${DOMAIN_DIR}/subfinder_output.txt
     environment:
       - CENSYS_API_ID=${CENSYS_API_ID}
       - CENSYS_API_SECRET=${CENSYS_API_SECRET}
@@ -17,58 +13,25 @@ services:
     networks:
       - shared_network
 
-  amass_enum:
-    image: caffix/amass
-    command: enum -passive -df /app/data/amass_input.txt -o /app/data/amass_enum_output.txt -d ${DOMAIN} -timeout 60 -max-depth 5
-    environment:
-      - CENSYS_API_ID=${CENSYS_API_ID}
-      - CENSYS_API_SECRET=${CENSYS_API_SECRET}
-      - SHODAN_API_KEY=${SHODAN_API_KEY}
-      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
-    volumes:
-      - ./data:/app/data
-    networks:
-      - shared_network
-
   httpx:
     image: projectdiscovery/httpx
-    command: -silent -l /app/data/final_subdomains.txt -o /app/data/live_hosts.txt
+    command: -silent -l /app/data/${DOMAIN_DIR}/final_subdomains.txt -o /app/data/${DOMAIN_DIR}/live_hosts.txt
     volumes:
       - ./data:/app/data
-    networks:
-      - shared_network
-
-  theharvester:
-    image: secsi/theharvester
-    command: -d ${DOMAIN} -b all -f /app/data/theharvester_output.html
-    environment:
-      - SHODAN_API_KEY=${SHODAN_API_KEY}
-      - GITHUB_API_KEY=${GITHUB_API_KEY}
-    volumes:
-      - ./data:/app/data
-    networks:
-      - shared_network
-
-  nuclei:
-    image: projectdiscovery/nuclei
-    command: -silent -l /app/data/live_hosts.txt -t /root/nuclei-templates -o /app/data/nuclei_output.txt -rl 50 -c 25
-    volumes:
-      - ./data:/app/data
-      - ./config/nuclei:/root/nuclei-templates
     networks:
       - shared_network
 
   gau:
     image: sxcurity/gau
-    command: ${DOMAIN} --subs --threads 5 --providers wayback,commoncrawl,otx,urlscan --o /app/data/urls.txt
+    command: ${DOMAIN} --subs --threads 5 --providers wayback,commoncrawl,otx,urlscan --o /app/data/${DOMAIN_DIR}/urls.txt
     volumes:
       - ./data:/app/data
     networks:
       - shared_network
 
   arjun:
-    build: ./arjun
-    command: -q -i /app/data/urls.txt -o /app/data/arjun_output.txt
+    image: ./arjun
+    command: -i /app/data/${DOMAIN_DIR}/urls.txt -o /app/data/${DOMAIN_DIR}/arjun_output.txt
     volumes:
       - ./data:/app/data
     networks:
@@ -76,41 +39,34 @@ services:
 
   dalfox:
     image: hahwul/dalfox
-    command: file /app/data/arjun_output.txt --silence --no-spinner -o /app/data/dalfox_output.txt
+    command: file /app/data/${DOMAIN_DIR}/arjun_output.txt --silence --no-spinner -o /app/data/${DOMAIN_DIR}/dalfox_output.txt
     volumes:
       - ./data:/app/data
     networks:
       - shared_network
 
   getjs:
-    build: ./getjs
-    command: --input /app/data/urls.txt --output /app/data/js_urls.txt
-    volumes:
-      - ./data:/app/data
-    networks:
-      - shared_network
-
-  testssl:
-    image: drwetter/testssl.sh
-    command: /app/testssl.sh --jsonfile /app/data/testssl_output.json --quiet --file /app/data/urls.txt
-    volumes:
-      - ./data:/app/data
-    networks:
-      - shared_network
-
-  gowitness:
-    image: leonjza/gowitness
-    command: file -f /app/data/urls.txt --screenshot-path /app/data/screenshots --threads 5
+    image: ./getjs
+    command: --input /app/data/${DOMAIN_DIR}/urls.txt --output /app/data/${DOMAIN_DIR}/js_urls.txt
     volumes:
       - ./data:/app/data
     networks:
       - shared_network
 
   paramspider:
-    build: ./paramspider
-    command: -d ${DOMAIN} -s > /app/data/params.txt
+    image: ./paramspider
+    command: -d ${DOMAIN} -s > /app/data/${DOMAIN_DIR}/params.txt
     volumes:
       - ./data:/app/data
+    networks:
+      - shared_network
+
+  nuclei:
+    image: projectdiscovery/nuclei
+    command: -silent -l /app/data/${DOMAIN_DIR}/live_hosts.txt -t /root/nuclei-templates -o /app/data/${DOMAIN_DIR}/nuclei_output.txt -rl 50 -c 25
+    volumes:
+      - ./data:/app/data
+      - ./config/nuclei:/root/nuclei-templates
     networks:
       - shared_network
 
