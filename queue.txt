@@ -1,13 +1,3 @@
-wu.com
-wu.co
-wu.tech
-wu.net
-wu.org
-wu.club
-wu.design
-wu.io
-wu.ca
-wu.ac
-wu.ae.org
-wu.engineer
-xhomeapi-*.cloud.comcast.net
+httpbin.org
+test.net
+example.org

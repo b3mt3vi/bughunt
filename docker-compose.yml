@@ -1,8 +1,11 @@
+version: '3'
 services:
   subfinder:
     image: projectdiscovery/subfinder
-    command: -T -silent -d ${DOMAIN} -o /app/data/${DOMAIN_DIR}/subfinder_output.txt
+    command: -silent -d ${DOMAIN} -o /app/data/${DOMAIN_DIR}/subfinder_output.txt
     environment:
+      - DOMAIN
+      - DOMAIN_DIR
       - CENSYS_API_ID=${CENSYS_API_ID}
       - CENSYS_API_SECRET=${CENSYS_API_SECRET}
       - SHODAN_API_KEY=${SHODAN_API_KEY}
@@ -15,7 +18,10 @@ services:
 
   httpx:
     image: projectdiscovery/httpx
-    command: -T -silent -l /app/data/${DOMAIN_DIR}/final_subdomains.txt -o /app/data/${DOMAIN_DIR}/live_hosts.txt
+    command: -silent -l /app/data/${DOMAIN_DIR}/final_subdomains.txt -o /app/data/${DOMAIN_DIR}/live_hosts.txt
+    environment:
+      - DOMAIN
+      - DOMAIN_DIR
     volumes:
       - ./data:/app/data
     networks:
@@ -23,7 +29,10 @@ services:
 
   gau:
     image: sxcurity/gau
-    command: -T ${DOMAIN} --subs --threads 5 --providers wayback,commoncrawl,otx,urlscan --o /app/data/${DOMAIN_DIR}/urls.txt
+    command: ${DOMAIN} --subs --threads 5 --providers wayback,commoncrawl,otx,urlscan --o /app/data/${DOMAIN_DIR}/urls.txt
+    environment:
+      - DOMAIN
+      - DOMAIN_DIR
     volumes:
       - ./data:/app/data
     networks:
@@ -31,7 +40,10 @@ services:
 
   arjun:
     image: s0md3v/arjun
-    command: -T -i /app/data/${DOMAIN_DIR}/urls.txt -o /app/data/${DOMAIN_DIR}/arjun_output.txt
+    command: -i /app/data/${DOMAIN_DIR}/urls.txt -o /app/data/${DOMAIN_DIR}/arjun_output.txt
+    environment:
+      - DOMAIN
+      - DOMAIN_DIR
     volumes:
       - ./data:/app/data
     networks:
@@ -39,7 +51,10 @@ services:
 
   dalfox:
     image: hahwul/dalfox
-    command: -T file /app/data/${DOMAIN_DIR}/recon/urls/urls.txt --silence --no-spinner -o /app/data/${DOMAIN_DIR}/dalfox_output.txt
+    command: file /app/data/${DOMAIN_DIR}/recon/urls/urls.txt --silence --no-spinner -o /app/data/${DOMAIN_DIR}/dalfox_output.txt
+    environment:
+      - DOMAIN
+      - DOMAIN_DIR
     volumes:
       - ./data:/app/data
     networks:
@@ -47,7 +62,10 @@ services:
 
   paramspider:
     image: devanshbatham/paramspider
-    command: -T -d ${DOMAIN} -s > /app/data/${DOMAIN_DIR}/params.txt
+    command: -d ${DOMAIN} -s > /app/data/${DOMAIN_DIR}/params.txt
+    environment:
+      - DOMAIN
+      - DOMAIN_DIR
     volumes:
       - ./data:/app/data
     networks:
@@ -55,7 +73,10 @@ services:
 
   nuclei:
     image: projectdiscovery/nuclei
-    command: -T -silent -l /app/data/${DOMAIN_DIR}/live_hosts.txt -t /root/nuclei-templates -o /app/data/${DOMAIN_DIR}/nuclei_output.txt -rl 50 -c 25
+    command: -silent -l /app/data/${DOMAIN_DIR}/live_hosts.txt -t /root/nuclei-templates -o /app/data/${DOMAIN_DIR}/nuclei_output.txt -rl 50 -c 25
+    environment:
+      - DOMAIN
+      - DOMAIN_DIR
     volumes:
       - ./data:/app/data
       - ./config/nuclei:/root/nuclei-templates
