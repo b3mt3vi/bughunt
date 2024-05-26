@@ -85,8 +85,13 @@ process_domain() {
   local DOMAIN=$(normalize_domain $RAW_DOMAIN)
   local DOMAIN_DIR=$(echo $DOMAIN | tr -d '*')
 
+  export DOMAIN
+  export DOMAIN_DIR
+
   # Create domain-specific directories
-  mkdir -p "$(pwd)/data/$DOMAIN_DIR"
+  mkdir -p "$(pwd)/data/$DOMAIN_DIR/recon/subdomains"
+  mkdir -p "$(pwd)/data/$DOMAIN_DIR/recon/urls"
+  mkdir -p "$(pwd)/data/$DOMAIN_DIR/recon/ips"
 
   # Create necessary files for each domain
   touch "$(pwd)/data/$DOMAIN_DIR/urls.txt"
@@ -100,7 +105,7 @@ process_domain() {
   touch "$(pwd)/data/$DOMAIN_DIR/live_hosts.txt"
 
   echo "Running Subfinder for $DOMAIN..."
-  if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run --rm -T subfinder -d $DOMAIN -o /app/data/${DOMAIN_DIR}/subfinder_output.txt; then
+  if ! docker compose run --rm subfinder; then
     log_error "Subfinder failed for $DOMAIN"
   fi
 
@@ -108,7 +113,7 @@ process_domain() {
   echo "Probing with HTTPX for $DOMAIN..."
   cat "$(pwd)/data/${DOMAIN_DIR}/subfinder_output.txt" 2>/dev/null | sort -u > "$(pwd)/data/${DOMAIN_DIR}/final_subdomains.txt"
   if [ -s "$(pwd)/data/${DOMAIN_DIR}/final_subdomains.txt" ]; then
-    if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run --rm -T httpx -l /app/data/${DOMAIN_DIR}/final_subdomains.txt -o /app/data/${DOMAIN_DIR}/live_hosts.txt; then
+    if ! docker compose run --rm httpx; then
       log_error "HTTPX failed for $DOMAIN"
     fi
   else
@@ -117,7 +122,7 @@ process_domain() {
 
   # Run Gau
   echo "Running Gau for $DOMAIN..."
-  if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run --rm -T gau --subs $DOMAIN --o /app/data/${DOMAIN_DIR}/urls.txt; then
+  if ! docker compose run --rm gau; then
     log_error "Gau failed for $DOMAIN"
   fi
 
@@ -138,26 +143,26 @@ process_domain() {
   # Optionally run Nuclei
   if [ "$RUN_NUCLEI" = true ]; then
     echo "Running Nuclei for $DOMAIN..."
-    if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run --rm -T nuclei -l /app/data/${DOMAIN_DIR}/live_hosts.txt -t /root/nuclei-templates -o /app/data/${DOMAIN_DIR}/nuclei_output.txt -rl 50 -c 25; then
+    if ! docker compose run --rm nuclei; then
       log_error "Nuclei failed for $DOMAIN"
     fi
   fi
 
   # Run Arjun
   echo "Running Arjun for $DOMAIN..."
-  if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run --rm -T arjun -u /app/data/${DOMAIN_DIR}/recon/urls/urls.txt -o /app/data/${DOMAIN_DIR}/arjun_output.txt; then
+  if ! docker compose run --rm arjun; then
     log_error "Arjun failed for $DOMAIN"
   fi
 
   # Run Dalfox
   echo "Running Dalfox for $DOMAIN..."
-  if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run --rm -T dalfox file /app/data/${DOMAIN_DIR}/recon/urls/urls.txt -o /app/data/${DOMAIN_DIR}/dalfox_output.txt; then
+  if ! docker compose run --rm dalfox; then
     log_error "Dalfox failed for $DOMAIN"
   fi
 
   # Run ParamSpider
   echo "Running ParamSpider for $DOMAIN..."
-  if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run -T --rm paramspider; then
+  if ! docker compose run --rm paramspider; then
     log_error "ParamSpider failed for $DOMAIN"
   fi
 }

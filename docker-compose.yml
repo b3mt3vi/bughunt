@@ -30,7 +30,7 @@ services:
       - shared_network
 
   arjun:
-    image: ./arjun
+    image: s0md3v/arjun
     command: -i /app/data/${DOMAIN_DIR}/urls.txt -o /app/data/${DOMAIN_DIR}/arjun_output.txt
     volumes:
       - ./data:/app/data
@@ -39,22 +39,14 @@ services:
 
   dalfox:
     image: hahwul/dalfox
-    command: file /app/data/${DOMAIN_DIR}/arjun_output.txt --silence --no-spinner -o /app/data/${DOMAIN_DIR}/dalfox_output.txt
-    volumes:
-      - ./data:/app/data
-    networks:
-      - shared_network
-
-  getjs:
-    image: ./getjs
-    command: --input /app/data/${DOMAIN_DIR}/urls.txt --output /app/data/${DOMAIN_DIR}/js_urls.txt
+    command: file /app/data/${DOMAIN_DIR}/recon/urls/urls.txt --silence --no-spinner -o /app/data/${DOMAIN_DIR}/dalfox_output.txt
     volumes:
       - ./data:/app/data
     networks:
       - shared_network
 
   paramspider:
-    image: ./paramspider
+    image: devanshbatham/paramspider
     command: -d ${DOMAIN} -s > /app/data/${DOMAIN_DIR}/params.txt
     volumes:
       - ./data:/app/data
