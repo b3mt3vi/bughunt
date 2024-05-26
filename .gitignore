@@ -3,4 +3,5 @@
 data/*.txt
 config/nuclei/.checksum
 getjs/
-getjs/
+paramspider/
+paramspider

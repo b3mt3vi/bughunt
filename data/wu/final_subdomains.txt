@@ -106,6 +106,7 @@ kenya.wu.com
 kuwait-pi.wu.com
 kuwait-uat.wu.com
 kuwait.wu.com
+latvia.wu.com
 lebanon.wu.com
 lyncdiscoverinternal.wu.com
 lyncdiscover.wu.com
@@ -302,6 +303,7 @@ qatar-pi.wu.com
 qatar-uat.wu.com
 qatar.wu.com
 rdc.wu.com
+recoveryportal.wu.com
 russia.wu.com
 rwanda.wu.com
 samoa.wu.com

@@ -1,7 +1,5 @@
 *.wu.*
 *.viatorinc.com
-*.westernunion.*
-*.wu.*
 *.transferwise.com
 *.wise.com
 *-cvr-aws-*.sys.comcast.net

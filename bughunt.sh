@@ -34,8 +34,6 @@ normalize_domain() {
   DOMAIN=$(echo $DOMAIN | cut -d ':' -f 1)
   # Handle wildcards and subdomains
   DOMAIN=$(echo $DOMAIN | sed -e 's/*\.//g' -e 's/\.\*//g')
-  # Extract root domain
-  DOMAIN=$(echo $DOMAIN | awk -F'.' '{if (NF>2) print $(NF-1)"."$NF; else print $0}')
   echo $DOMAIN
 }
 
@@ -83,6 +81,7 @@ log_error() {
 
 process_domain() {
   local RAW_DOMAIN=$1
+  echo "Processing domain: $RAW_DOMAIN"  # Debugging output
   local DOMAIN=$(normalize_domain $RAW_DOMAIN)
   local DOMAIN_DIR=$(echo $DOMAIN | tr -d '*')
 
@@ -99,38 +98,6 @@ process_domain() {
   touch "$(pwd)/data/$DOMAIN_DIR/amass_enum_output.txt"
   touch "$(pwd)/data/$DOMAIN_DIR/final_subdomains.txt"
   touch "$(pwd)/data/$DOMAIN_DIR/live_hosts.txt"
-
-  # Enumerate TLDs if the domain has a TLD wildcard
-  if [[ $RAW_DOMAIN == *"*" && $RAW_DOMAIN == *.* ]]; then
-    echo "Enumerating TLDs for $DOMAIN..."
-    ROOT_DOMAIN=$(echo $RAW_DOMAIN | sed -e 's/\.\*$//' -e 's/*\.//g')
-    TLD_LIST_FILE="$(pwd)/tld_list.txt"
-    if [ ! -f "$TLD_LIST_FILE" ]; then
-      echo "TLD list file not found: $TLD_LIST_FILE"
-      log_error "TLD list file not found: $TLD_LIST_FILE"
-      return 1
-    fi
-    enumerate_wildcard_tlds $ROOT_DOMAIN "$TLD_LIST_FILE" "$(pwd)/data/$DOMAIN_DIR/possible_domains.txt"
-    if [ ! -f "$(pwd)/data/$DOMAIN_DIR/possible_domains.txt" ]; then
-      echo "Failed to create possible_domains.txt"
-      log_error "Failed to create possible_domains.txt"
-      return 1
-    fi
-    while read -r POSSIBLE_DOMAIN; do
-      if check_domain_exists "$POSSIBLE_DOMAIN"; then
-        process_valid_domain "$POSSIBLE_DOMAIN" "$DOMAIN_DIR"
-      fi
-    done < "$(pwd)/data/$DOMAIN_DIR/possible_domains.txt"
-  else
-    if check_domain_exists "$DOMAIN"; then
-      process_valid_domain "$DOMAIN" "$DOMAIN_DIR"
-    fi
-  fi
-}
-
-process_valid_domain() {
-  local DOMAIN=$1
-  local DOMAIN_DIR=$2
 
   echo "Running Subfinder for $DOMAIN..."
   if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run --rm -T subfinder -d $DOMAIN -o /app/data/${DOMAIN_DIR}/subfinder_output.txt; then
@@ -150,7 +117,7 @@ process_valid_domain() {
 
   # Run Gau
   echo "Running Gau for $DOMAIN..."
-  if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run --rm -T gau -o /app/data/${DOMAIN_DIR}/urls.txt; then
+  if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run --rm -T gau --subs $DOMAIN --o /app/data/${DOMAIN_DIR}/urls.txt; then
     log_error "Gau failed for $DOMAIN"
   fi
 
@@ -178,5 +145,53 @@ process_valid_domain() {
 
   # Run Arjun
   echo "Running Arjun for $DOMAIN..."
-  if ! DOMAIN=$DOMAIN DOMAIN_DIR=$
+  if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run --rm -T arjun -u /app/data/${DOMAIN_DIR}/recon/urls/urls.txt -o /app/data/${DOMAIN_DIR}/arjun_output.txt; then
+    log_error "Arjun failed for $DOMAIN"
+  fi
+
+  # Run Dalfox
+  echo "Running Dalfox for $DOMAIN..."
+  if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run --rm -T dalfox file /app/data/${DOMAIN_DIR}/recon/urls/urls.txt -o /app/data/${DOMAIN_DIR}/dalfox_output.txt; then
+    log_error "Dalfox failed for $DOMAIN"
+  fi
+
+  # Run ParamSpider
+  echo "Running ParamSpider for $DOMAIN..."
+  if ! DOMAIN=$DOMAIN DOMAIN_DIR=$DOMAIN_DIR docker compose run -T --rm paramspider; then
+    log_error "ParamSpider failed for $DOMAIN"
+  fi
+}
+
+# Initialize queue
+> queue.txt
+
+# Read the domain file and add domains to the queue
+while IFS= read -r DOMAIN; do
+  if [[ $DOMAIN == *".*" ]]; then
+    echo "Processing wildcard TLD domain: $DOMAIN"
+    ROOT_DOMAIN=$(echo $DOMAIN | sed -e 's/\.\*$//' -e 's/*\.//g')
+    TLD_LIST_FILE="$(pwd)/tld_list.txt"
+    if [ ! -f "$TLD_LIST_FILE" ]; then
+      echo "TLD list file not found: $TLD_LIST_FILE"
+      log_error "TLD list file not found: $TLD_LIST_FILE"
+      exit 1
+    fi
+    enumerate_wildcard_tlds $ROOT_DOMAIN "$TLD_LIST_FILE" "$(pwd)/possible_domains.txt"
+    while IFS= read -r POSSIBLE_DOMAIN; do
+      if check_domain_exists "$POSSIBLE_DOMAIN"; then
+        echo "$POSSIBLE_DOMAIN" >> queue.txt
+      fi
+    done < "$(pwd)/possible_domains.txt"
+  else
+    echo "Adding non-wildcard domain: $DOMAIN to queue"
+    echo "$DOMAIN" >> queue.txt
+  fi
+done < "$DOMAIN_FILE"
+
+# Process the queue
+while IFS= read -r DOMAIN; do
+  process_domain "$DOMAIN"
+done < queue.txt
+
+echo "Recon process completed."
 
