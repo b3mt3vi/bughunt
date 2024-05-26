@@ -1,7 +1,7 @@
 services:
   subfinder:
     image: projectdiscovery/subfinder
-    command: -silent -d ${DOMAIN} -o /app/data/${DOMAIN_DIR}/subfinder_output.txt
+    command: -T -silent -d ${DOMAIN} -o /app/data/${DOMAIN_DIR}/subfinder_output.txt
     environment:
       - CENSYS_API_ID=${CENSYS_API_ID}
       - CENSYS_API_SECRET=${CENSYS_API_SECRET}
@@ -15,7 +15,7 @@ services:
 
   httpx:
     image: projectdiscovery/httpx
-    command: -silent -l /app/data/${DOMAIN_DIR}/final_subdomains.txt -o /app/data/${DOMAIN_DIR}/live_hosts.txt
+    command: -T -silent -l /app/data/${DOMAIN_DIR}/final_subdomains.txt -o /app/data/${DOMAIN_DIR}/live_hosts.txt
     volumes:
       - ./data:/app/data
     networks:
@@ -23,7 +23,7 @@ services:
 
   gau:
     image: sxcurity/gau
-    command: ${DOMAIN} --subs --threads 5 --providers wayback,commoncrawl,otx,urlscan --o /app/data/${DOMAIN_DIR}/urls.txt
+    command: -T ${DOMAIN} --subs --threads 5 --providers wayback,commoncrawl,otx,urlscan --o /app/data/${DOMAIN_DIR}/urls.txt
     volumes:
       - ./data:/app/data
     networks:
@@ -31,7 +31,7 @@ services:
 
   arjun:
     image: s0md3v/arjun
-    command: -i /app/data/${DOMAIN_DIR}/urls.txt -o /app/data/${DOMAIN_DIR}/arjun_output.txt
+    command: -T -i /app/data/${DOMAIN_DIR}/urls.txt -o /app/data/${DOMAIN_DIR}/arjun_output.txt
     volumes:
       - ./data:/app/data
     networks:
@@ -39,7 +39,7 @@ services:
 
   dalfox:
     image: hahwul/dalfox
-    command: file /app/data/${DOMAIN_DIR}/recon/urls/urls.txt --silence --no-spinner -o /app/data/${DOMAIN_DIR}/dalfox_output.txt
+    command: -T file /app/data/${DOMAIN_DIR}/recon/urls/urls.txt --silence --no-spinner -o /app/data/${DOMAIN_DIR}/dalfox_output.txt
     volumes:
       - ./data:/app/data
     networks:
@@ -47,7 +47,7 @@ services:
 
   paramspider:
     image: devanshbatham/paramspider
-    command: -d ${DOMAIN} -s > /app/data/${DOMAIN_DIR}/params.txt
+    command: -T -d ${DOMAIN} -s > /app/data/${DOMAIN_DIR}/params.txt
     volumes:
       - ./data:/app/data
     networks:
@@ -55,7 +55,7 @@ services:
 
   nuclei:
     image: projectdiscovery/nuclei
-    command: -silent -l /app/data/${DOMAIN_DIR}/live_hosts.txt -t /root/nuclei-templates -o /app/data/${DOMAIN_DIR}/nuclei_output.txt -rl 50 -c 25
+    command: -T -silent -l /app/data/${DOMAIN_DIR}/live_hosts.txt -t /root/nuclei-templates -o /app/data/${DOMAIN_DIR}/nuclei_output.txt -rl 50 -c 25
     volumes:
       - ./data:/app/data
       - ./config/nuclei:/root/nuclei-templates
