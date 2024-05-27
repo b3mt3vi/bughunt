@@ -1,1 +1,0 @@
-api.callback.marqeta.partner.us.westernunion.com

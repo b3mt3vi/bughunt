@@ -1,1 +1,0 @@
-ns1.smtpex.wu.com

@@ -1,1 +1,0 @@
-wubs.traderdata.api.prod.westernunion.com

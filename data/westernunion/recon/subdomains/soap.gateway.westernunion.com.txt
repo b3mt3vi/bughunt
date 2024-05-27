@@ -1,1 +1,0 @@
-soap.gateway.westernunion.com

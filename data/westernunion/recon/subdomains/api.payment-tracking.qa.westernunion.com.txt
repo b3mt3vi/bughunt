@@ -1,1 +1,0 @@
-api.payment-tracking.qa.westernunion.com

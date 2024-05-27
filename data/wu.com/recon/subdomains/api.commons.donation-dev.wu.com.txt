@@ -1,1 +1,0 @@
-api.commons.donation-dev.wu.com

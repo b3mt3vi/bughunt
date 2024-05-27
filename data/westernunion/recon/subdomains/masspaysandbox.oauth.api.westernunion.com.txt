@@ -1,1 +1,0 @@
-masspaysandbox.oauth.api.westernunion.com

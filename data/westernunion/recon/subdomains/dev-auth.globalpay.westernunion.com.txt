@@ -1,1 +1,0 @@
-dev-auth.globalpay.westernunion.com

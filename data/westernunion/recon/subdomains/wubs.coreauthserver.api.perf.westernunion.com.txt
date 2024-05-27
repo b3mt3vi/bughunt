@@ -1,1 +1,0 @@
-wubs.coreauthserver.api.perf.westernunion.com

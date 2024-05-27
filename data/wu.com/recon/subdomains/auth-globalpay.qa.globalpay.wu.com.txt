@@ -1,1 +1,0 @@
-auth-globalpay.qa.globalpay.wu.com

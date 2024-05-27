@@ -1,1 +1,0 @@
-smtp.transferwise.com

@@ -1,1 +1,0 @@
-api.callback.rapyd.partner.us.westernunion.com

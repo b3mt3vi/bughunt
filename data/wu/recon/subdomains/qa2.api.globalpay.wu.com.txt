@@ -1,1 +1,0 @@
-qa2.api.globalpay.wu.com
