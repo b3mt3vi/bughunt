@@ -1,0 +1,21 @@
+# Install subfinder
+GO111MODULE=on go get -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder
+
+# Install httpx
+GO111MODULE=on go get -v github.com/projectdiscovery/httpx/cmd/httpx
+
+# Install gau
+GO111MODULE=on go get -u github.com/lc/gau
+
+# Install arjun
+pip3 install arjun
+
+# Install dalfox
+GO111MODULE=on go get -v github.com/hahwul/dalfox/v2
+
+# Install paramspider
+pip3 install paramspider
+
+# Install nuclei
+GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
+
