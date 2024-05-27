@@ -1,0 +1,1 @@
+origin.aws.prod3.globalpay.wu.com

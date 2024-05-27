@@ -8,3 +8,5 @@ wu.design
 wu.io
 wu.ca
 wu.ac
+wu.ae.org
+wu.eu.com
