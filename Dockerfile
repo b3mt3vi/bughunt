@@ -51,12 +51,12 @@ RUN pip install arjun
 RUN git clone https://github.com/devanshbatham/paramspider
 RUN pip install paramspider/
 
-# Copy the script into the container
+# Copy the script and tld_list.txt into the container
 COPY bughunt.sh /usr/local/bin/bughunt.sh
+COPY tld_list.txt /tld_list.txt
 
 # Make the script executable
 RUN chmod +x /usr/local/bin/bughunt.sh
 
 # Define the entrypoint
 ENTRYPOINT ["/usr/local/bin/bughunt.sh"]
-
