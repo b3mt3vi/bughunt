@@ -3,6 +3,7 @@ import os
 import re
 import argparse
 import socket
+import tempfile
 
 def load_tlds(tlds_file_path):
     if not os.path.exists(tlds_file_path):
@@ -33,7 +34,8 @@ def run_subfinder(domain):
             stderr=subprocess.STDOUT
         )
         results = subfinder_output.decode('utf-8').split('\n')
-        results = [result for result in results if result]  # Remove empty lines
+        # Filter out lines that are not valid subdomains
+        results = [result.strip() for result in results if re.match(r'^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', result.strip())]
         print(f"Subfinder results for {domain}: {results}")
         return results
     except subprocess.CalledProcessError as e:
@@ -51,9 +53,10 @@ def run_amass(domain):
             stderr=subprocess.STDOUT
         )
         results = amass_output.decode('utf-8').split('\n')
-        results = [result for result in results if result]  # Remove empty lines
-        print(f"Amass results for {domain}: {results}")
-        return results
+        # Filter out lines that are not valid subdomains
+        valid_results = [line.split(' ')[0].strip() for line in results if re.match(r'^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', line.split(' ')[0].strip())]
+        print(f"Amass results for {domain}: {valid_results}")
+        return valid_results
     except subprocess.CalledProcessError as e:
         print(f"Amass failed for {domain}: {e.output.decode('utf-8')}")
         return []
@@ -63,19 +66,24 @@ def run_amass(domain):
 
 def probe_alive_hosts(subdomains):
     if not subdomains:
+        print("No subdomains to probe for alive hosts.")
         return []
 
     try:
         print(f"Probing for alive hosts...")
-        input_data = '\n'.join(subdomains).encode('utf-8')
-        print(f"HTTPX input data:\n{input_data.decode('utf-8')}")  # Debugging line
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            temp_file.write('\n'.join(subdomains).encode('utf-8'))
+            temp_file_path = temp_file.name
+        
         httpx_output = subprocess.check_output(
-            ['httpx', '-silent', '-l', '-'],
-            input=input_data,
+            ['httpx', '-silent', '-l', temp_file_path],
             stderr=subprocess.STDOUT
         )
+        
+        os.remove(temp_file_path)  # Clean up temporary file
+
         alive_hosts = httpx_output.decode('utf-8').split('\n')
-        alive_hosts = [host for host in alive_hosts if host]  # Remove empty lines
+        alive_hosts = [host.strip() for host in alive_hosts if host.strip()]  # Remove empty lines
         print(f"Alive hosts: {alive_hosts}")
         return alive_hosts
     except subprocess.CalledProcessError as e:

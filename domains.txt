@@ -1,2 +1,2 @@
-pornbox.com
-analvids.com
+*.example.*
+test.net
