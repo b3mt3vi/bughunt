@@ -29,7 +29,7 @@ def run_subfinder(domain):
     try:
         print(f"Running Subfinder for {domain}...")
         subfinder_output = subprocess.check_output(
-            ['subfinder', '-d', domain],
+            ['subfinder', '-d', domain, '-silent'],
             stderr=subprocess.STDOUT
         )
         results = subfinder_output.decode('utf-8').split('\n')
@@ -39,44 +39,128 @@ def run_subfinder(domain):
     except subprocess.CalledProcessError as e:
         print(f"Subfinder failed for {domain}: {e.output.decode('utf-8')}")
         return []
+    except KeyboardInterrupt:
+        print(f"Subfinder interrupted for {domain}. Moving to Amass...")
+        return []
 
-def save_results(domain, subfinder_results):
-    if subfinder_results:
-        # Create a directory for the domain if it doesn't exist
-        if not os.path.exists(domain):
-            os.makedirs(domain)
+def run_amass(domain):
+    try:
+        print(f"Running Amass for {domain}...")
+        amass_output = subprocess.check_output(
+            ['amass', 'enum', '-passive', '-d', domain],
+            stderr=subprocess.STDOUT
+        )
+        results = amass_output.decode('utf-8').split('\n')
+        results = [result for result in results if result]  # Remove empty lines
+        print(f"Amass results for {domain}: {results}")
+        return results
+    except subprocess.CalledProcessError as e:
+        print(f"Amass failed for {domain}: {e.output.decode('utf-8')}")
+        return []
+    except KeyboardInterrupt:
+        print(f"Amass interrupted for {domain}. Moving to the next step...")
+        return []
 
-        # Save results to a file in the domain directory
-        file_path = os.path.join(domain, "subdomains.txt")
+def probe_alive_hosts(subdomains):
+    if not subdomains:
+        return []
+
+    try:
+        print(f"Probing for alive hosts...")
+        input_data = '\n'.join(subdomains).encode('utf-8')
+        print(f"HTTPX input data:\n{input_data.decode('utf-8')}")  # Debugging line
+        httpx_output = subprocess.check_output(
+            ['httpx', '-silent', '-l', '-'],
+            input=input_data,
+            stderr=subprocess.STDOUT
+        )
+        alive_hosts = httpx_output.decode('utf-8').split('\n')
+        alive_hosts = [host for host in alive_hosts if host]  # Remove empty lines
+        print(f"Alive hosts: {alive_hosts}")
+        return alive_hosts
+    except subprocess.CalledProcessError as e:
+        print(f"HTTPX probing failed: {e.output.decode('utf-8')}")
+        return []
+    except KeyboardInterrupt:
+        print(f"HTTPX probing interrupted. Moving to IP conversion...")
+        return []
+
+def convert_to_ips(subdomains):
+    ips = set()
+    for subdomain in subdomains:
+        try:
+            answers = socket.gethostbyname_ex(subdomain)
+            ips.update(answers[2])
+        except socket.error:
+            continue
+    return list(ips)
+
+def save_results(domain, subfolder, combined_results, alive_hosts, ips):
+    if not os.path.exists(subfolder):
+        os.makedirs(subfolder)
+
+    if combined_results:
+        file_path = os.path.join(subfolder, "subdomains.txt")
         with open(file_path, 'w') as file:
-            file.write("\n".join(set(subfinder_results)))
-        print(f"Results saved to {file_path}")
+            file.write("\n".join(set(combined_results)))
+        print(f"Subdomains results saved to {file_path}")
+    
+    if alive_hosts:
+        file_path = os.path.join(subfolder, "alive_hosts.txt")
+        with open(file_path, 'w') as file:
+            file.write("\n".join(set(alive_hosts)))
+        print(f"Alive hosts results saved to {file_path}")
+
+    if ips:
+        file_path = os.path.join(subfolder, "ips.txt")
+        with open(file_path, 'w') as file:
+            file.write("\n".join(set(ips)))
+        print(f"IP addresses saved to {file_path}")
+
+def process_domain(full_domain, subfolder):
+    print(f"Processing {full_domain}...")
+
+    subfinder_results = []
+    amass_results = []
+
+    # Run Subfinder
+    subfinder_results = run_subfinder(full_domain)
+
+    # Run Amass
+    amass_results = run_amass(full_domain)
+
+    # Combine results
+    combined_results = list(set(subfinder_results + amass_results))
+
+    if combined_results:
+        # Probe for alive hosts
+        alive_hosts = probe_alive_hosts(combined_results)
+
+        # Convert to IPs
+        ips = convert_to_ips(alive_hosts)
+
+        # Save results
+        save_results(full_domain, subfolder, combined_results, alive_hosts, ips)
     else:
-        print(f"No subdomains found for {domain}")
+        print(f"No subdomains found for {full_domain}")
+
+    print(f"Finished processing {full_domain}")
 
 def process_url(url, tlds):
     if re.search(r'\.\*$', url):
         base_domain = re.sub(r'\.\*$', '', normalize_url(url))
         for tld in tlds:
             full_domain = f"{base_domain}.{tld}"
-            print(f"Checking existence of {full_domain}...")
-
+            subfolder = os.path.join(base_domain, tld)
             if domain_exists(full_domain):
-                print(f"{full_domain} exists. Running Subfinder...")
-                subfinder_results = run_subfinder(full_domain)
-                save_results(full_domain, subfinder_results)
-                print(f"Finished processing {full_domain}")
+                process_domain(full_domain, subfolder)
             else:
                 print(f"{full_domain} does not exist. Skipping.")
     else:
         normalized_url = normalize_url(url)
-        print(f"Processing {normalized_url}...")
-
+        subfolder = normalized_url
         if domain_exists(normalized_url):
-            print(f"{normalized_url} exists. Running Subfinder...")
-            subfinder_results = run_subfinder(normalized_url)
-            save_results(normalized_url, subfinder_results)
-            print(f"Finished processing {normalized_url}")
+            process_domain(normalized_url, subfolder)
         else:
             print(f"{normalized_url} does not exist. Skipping.")
 
