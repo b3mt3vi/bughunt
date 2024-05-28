@@ -1,2 +1,0 @@
-example.com (FQDN) --> ns_record --> b.iana-servers.net (FQDN)
-example.com (FQDN) --> ns_record --> a.iana-servers.net (FQDN)
